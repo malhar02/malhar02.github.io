@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#080b08" />
+    <meta name="description" content="Bibhabasu Bhattacharya — AI and data-focused professional, Electronics and Computer Engineering graduate from Thapar University, Patiala, class of 2026." />
+    <title>Bibhabasu Bhattacharya — Greenroom / Project Playlist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="Bibhabasu Bhattacharya, back to top">
+          <span class="brand-mark">BB<span>26</span></span>
+          <span class="brand-caption">GREENROOM<br />PROJECT PLAYER</span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="#projects">Projects <span>09</span></a>
+          <a href="#about">About</a>
+          <a class="nav-contact" href="https://github.com/malhar02" target="_blank" rel="noreferrer">Say hello <span aria-hidden="true">↗</span></a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+          <div class="eyebrow"><span class="live-dot"></span> AI + DATA FOCUS <span class="eyebrow-year">ECE · GRADUATED 2026</span></div>
+            <h1 id="hero-title">Bibhabasu<br /><em>Bhattacharya.</em></h1>
+            <p class="hero-intro">AI &amp; data-focused professional, electronics and computer engineering graduate from Thapar University, Patiala. <span class="wave" aria-hidden="true">✳</span> Pick a track to explore the work.</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#projects">Browse the playlist <span aria-hidden="true">↓</span></a>
+              <a class="text-link" href="https://github.com/malhar02" target="_blank" rel="noreferrer"><span class="github-mark" aria-hidden="true">GH</span> github.com/malhar02 <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="hero-note"><span class="note-arrow">↳</span> Tap a project. Open the case file.<br /><span class="note-small">Bops in bytes, zero filler.</span></div>
+          </div>
+
+          <div class="hero-art">
+            <div class="art-sticker sticker-top">HELLO,<br />WORLD!</div>
+            <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+            <img class="hero-portrait" src="assets/bibhabasu-retro.png" alt="Retro animation-style portrait of Bibhabasu Bhattacharya with glasses and folded arms" />
+            <div class="art-sticker sticker-side">BEEP<br /><span>BOOP</span></div>
+            <div class="art-caption"><span class="caption-line"></span> PROJECT PLAYLIST <b>09 TRACKS</b></div>
+          </div>
+          <div class="hero-index" aria-hidden="true">FIG. 01&nbsp; / &nbsp;MAKER AT WORK</div>
+        </section>
+
+        <div class="ticker" aria-label="Data, ideas, experiments, and useful machines">
+          <div class="ticker-track"><span>DATA WITH PERSONALITY</span><b>✳</b><span>IDEAS IN MOTION</span><b>✳</b><span>USEFUL LITTLE MACHINES</span><b>✳</b><span>DATA WITH PERSONALITY</span><b>✳</b><span>IDEAS IN MOTION</span><b>✳</b><span>USEFUL LITTLE MACHINES</span><b>✳</b></div>
+        </div>
+
+        <section class="projects-section" id="projects" aria-labelledby="projects-title">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow section-eyebrow"><span class="eyebrow-mark">✳</span> THE TRACKLIST</div>
+              <h2 id="projects-title">Bits, builds &amp;<br /><em>bright ideas.</em></h2>
+            </div>
+            <p class="section-intro">Choose a project to open the full brief, its outcome, a few real-world uses, and a link straight to the repository.</p>
+          </div>
+
+          <div class="project-controls">
+            <div class="filters" role="group" aria-label="Filter projects">
+              <button class="filter-chip is-active" type="button" data-filter="all" aria-pressed="true">All tracks <span>09</span></button>
+              <button class="filter-chip" type="button" data-filter="data" aria-pressed="false">Data &amp; analytics</button>
+              <button class="filter-chip" type="button" data-filter="ai" aria-pressed="false">AI &amp; automation</button>
+              <button class="filter-chip" type="button" data-filter="apps" aria-pressed="false">Apps &amp; systems</button>
+            </div>
+            <div class="shelf-note"><span class="tiny-sun">✳</span> TAP A TRACK TO OPEN ITS CASE FILE</div>
+          </div>
+          <div class="playlist-columns" aria-hidden="true"><span>#</span><span>TRACK</span><span>PROJECT TYPE</span><span>BUILT WITH</span><span></span></div>
+
+          <div class="project-grid" id="project-grid" aria-live="polite"></div>
+          <div class="empty-state" id="empty-state" hidden>No projects in this corner of the workshop yet.</div>
+          <div class="project-count"><span class="count-line"></span><span id="visible-count">09 PROJECTS IN ROTATION</span><span class="count-line"></span></div>
+        </section>
+
+        <section class="about-strip" id="about" aria-labelledby="about-title">
+          <div class="about-doodle" aria-hidden="true"><span class="doodle-sun">✳</span><span class="doodle-orbit"></span><span class="doodle-dot">●</span></div>
+          <div class="about-copy">
+            <div class="eyebrow"><span class="live-dot"></span> A NOTE FROM THE WORKBENCH</div>
+            <h2 id="about-title">Pick a track.<br /><em>Open the case file.</em></h2>
+            <p>Each project page has a short brief, what the build produces, where it could be useful, and the repository link. No mystery liner notes.</p>
+            <a class="button button-dark" href="https://github.com/malhar02" target="_blank" rel="noreferrer">More on GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="about-card">
+            <div class="about-card-top"><span>WORKBENCH READOUT</span><span class="readout-light"></span></div>
+            <div class="readout-number">09<span>PROJECTS</span></div>
+            <div class="readout-divider"></div>
+            <div class="readout-row"><span>PUBLIC PROJECTS</span><b>08</b></div>
+            <div class="readout-row"><span>PRIVATE BUILD</span><b>01 <i>🔒</i></b></div>
+            <div class="readout-stamp">IDEAS<br />IN MOTION</div>
+          </div>
+        </section>
+        <section class="detail-page" id="detail-page" hidden aria-live="polite" aria-label="Project details"><div id="detail-content"></div></section>
+      </main>
+
+      <footer class="footer">
+        <a class="brand footer-brand" href="#top"><span class="brand-mark">BB<span>26</span></span><span class="brand-caption">END OF<br />TRANSMISSION</span></a>
+        <span>BUILT WITH CURIOSITY <span class="footer-star">✳</span> © <span id="year">2026</span></span>
+        <a class="footer-link" href="https://github.com/malhar02" target="_blank" rel="noreferrer">FIND ME ON GITHUB ↗</a>
+      </footer>
+    </div>
+  </body>
+</html>
