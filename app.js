@@ -13,6 +13,20 @@ const projects = [
     groups: ["ai", "apps"], art: "dockflow", stamp: "FEATURED BUILD", private: false, featured: true
   },
   {
+    slug: "card-risk-analytics",
+    name: "Card Risk Analytics with PySpark",
+    repo: "card-risk-analytics",
+    demo: "https://malhar02.github.io/card-risk-analytics/",
+    category: "Data & risk analytics",
+    short: "Fraud triage, credit default & review capacity",
+    brief: "A public-data project exploring two distinct payment-risk questions: how transaction-fraud review thresholds affect fraud capture and false-alert workload, and how credit-default risk is distributed across scored account groups.",
+    outcome: "PySpark workflows validate and model the separate datasets, evaluate a chronological fraud holdout and review thresholds, and summarize credit-default results by risk decile. The repository includes an interactive browser dashboard with filters, searchable tables, and aggregate CSV/JSON exports, plus an Azure Databricks and Power BI handoff.",
+    use: "Risk analysts can explore how review capacity and score thresholds change the cases surfaced for human review, then discuss the trade-offs using visible metrics and methodology notes.",
+    note: "Uses public ULB fraud and UCI historical credit-default datasets. It does not use American Express data. Scores are ranking signals rather than calibrated probabilities; this portfolio work is not a real-world fraud or lending decision system.",
+    tags: ["PySpark", "Python", "Risk analytics", "Azure Databricks", "Power BI"],
+    groups: ["data", "ai"], art: "cardrisk", stamp: "RISK SIGNAL LAB", private: false
+  },
+  {
     slug: "multi-channel-attribution",
     name: "Multi-Channel Sales Attribution",
     repo: "Multi-Channel-Sales-Attribution-analysis-using-postgree-sql-and-power-bi",
@@ -124,7 +138,7 @@ const emptyState = document.querySelector("#empty-state");
 const filters = [...document.querySelectorAll(".filter-chip")];
 const detailPage = document.querySelector("#detail-page");
 const detailContent = document.querySelector("#detail-content");
-const playlistSections = [...document.querySelectorAll(".hero, .ticker, .projects-section, .about-strip")];
+const playlistSections = [...document.querySelectorAll(".hero, .ticker, .projects-section, .about-strip, .profile-section")];
 const githubBase = "https://github.com/malhar02/";
 
 function artMarkup(kind) {
@@ -137,7 +151,8 @@ function artMarkup(kind) {
     cancer: `<div class="art-board cancer-board"><div class="cell-cell cell-a"></div><div class="cell-cell cell-b"></div><div class="cell-cell cell-c"></div><div class="cell-cell cell-d"></div><div class="scan-ring"></div><span class="scan-label">CELL / 08</span><span class="scan-badge">BENIGN<br /><b>?</b><br />MALIGNANT</span></div>`,
     jarvis: `<div class="art-board jarvis-board"><div class="robot-head"><span class="bot-ear"></span><span class="bot-eye"></span><span class="bot-eye"></span><span class="bot-mouth"></span><span class="bot-ear right"></span></div><div class="voice-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="jarvis-label">LISTENING...<b>●</b></span><span class="jarvis-zap">BZZT!</span></div>`,
     school: `<div class="art-board school-board"><div class="school-badge">CLASS<br /><b>01</b></div><div class="schema-box box-students"><span>STUDENTS</span><i>student_id</i><i>class_id</i></div><div class="schema-box box-classes"><span>CLASSES</span><i>class_id</i><i>teacher_id</i></div><div class="schema-link"></div><div class="school-foot">GOOD SYSTEMS<br />MAKE ROOM TO LEARN</div></div>`,
-    excel: `<div class="art-board excel-board"><div class="sheet-title"><span>ƒx</span> LITTLE SPREADSHEET MAGIC</div><div class="sheet-grid"><span></span><span>A</span><span>B</span><span>C</span><span>01</span><i>✓</i><i>✓</i><i>!</i><span>02</span><i>✓</i><i>✓</i><i>✓</i><span>03</span><i>!</i><i>✓</i><i>✓</i></div><span class="excel-sticker">ALL<br />TIDY!</span></div>`
+    excel: `<div class="art-board excel-board"><div class="sheet-title"><span>ƒx</span> LITTLE SPREADSHEET MAGIC</div><div class="sheet-grid"><span></span><span>A</span><span>B</span><span>C</span><span>01</span><i>✓</i><i>✓</i><i>!</i><span>02</span><i>✓</i><i>✓</i><i>✓</i><span>03</span><i>!</i><i>✓</i><i>✓</i></div><span class="excel-sticker">ALL<br />TIDY!</span></div>`,
+    cardrisk: `<div class="art-board risk-board"><div class="risk-head"><span>PAYMENT SIGNALS</span><b>02 / 02</b></div><div class="risk-meter"><div class="risk-meter-ring"><i></i></div><strong>RISK<br />REVIEW</strong></div><div class="risk-bars"><i style="--risk-bar:38%"></i><i style="--risk-bar:66%"></i><i style="--risk-bar:88%"></i><i style="--risk-bar:53%"></i><i style="--risk-bar:74%"></i></div><div class="risk-foot"><span>FRAUD TRIAGE</span><span>DEFAULT DECILES</span></div></div>`
   };
   return art[kind] || "";
 }
@@ -168,6 +183,7 @@ function detailMarkup(project) {
   const index = projects.indexOf(project);
   const tags = project.tags.map(tag => `<span class="tag">${tag}</span>`).join("");
   const privateBadge = project.private ? `<span class="detail-private">🔒 PRIVATE REPOSITORY</span>` : `<span class="detail-public">PUBLIC REPOSITORY</span>`;
+  const demoLink = project.demo ? `<a class="demo-button" href="${project.demo}" target="_blank" rel="noreferrer">Open live dashboard <span aria-hidden="true">↗</span></a>` : "";
   return `<article class="project-detail">
     <div class="detail-topline"><a class="back-to-playlist" href="#projects"><span aria-hidden="true">←</span> Back to the playlist</a><span>CASE FILE / ${String(index + 1).padStart(2, "0")}</span></div>
     <div class="detail-hero-row">
@@ -177,7 +193,7 @@ function detailMarkup(project) {
         <h1>${project.name}</h1>
         <p>${project.short}</p>
         <div class="detail-tags">${tags}</div>
-        <div class="detail-actions"><a class="repo-button" href="${githubBase}${project.repo}" target="_blank" rel="noreferrer">Open GitHub repository <span aria-hidden="true">↗</span></a><span class="repo-path">github.com/malhar02/${project.repo}</span></div>
+        <div class="detail-actions"><a class="repo-button" href="${githubBase}${project.repo}" target="_blank" rel="noreferrer">Open GitHub repository <span aria-hidden="true">↗</span></a>${demoLink}<span class="repo-path">github.com/malhar02/${project.repo}</span></div>
       </div>
     </div>
     <div class="detail-grid">
@@ -186,7 +202,7 @@ function detailMarkup(project) {
       <section class="detail-block detail-use"><div class="detail-block-title"><b>03</b><span>WHERE IT COULD BE USEFUL</span></div><p>${project.use}</p></section>
     </div>
     <aside class="project-note"><span>LINER NOTE</span><p>${project.note}</p></aside>
-    <div class="detail-bottom"><a class="back-to-playlist" href="#projects"><span aria-hidden="true">←</span> Back to all 09 projects</a><a class="detail-github" href="${githubBase}${project.repo}" target="_blank" rel="noreferrer">VIEW SOURCE ON GITHUB ↗</a></div>
+    <div class="detail-bottom"><a class="back-to-playlist" href="#projects"><span aria-hidden="true">←</span> Back to all ${projects.length} projects</a><a class="detail-github" href="${githubBase}${project.repo}" target="_blank" rel="noreferrer">VIEW SOURCE ON GITHUB ↗</a></div>
   </article>`;
 }
 
@@ -219,3 +235,4 @@ render();
 document.querySelector("#year").textContent = new Date().getFullYear();
 window.addEventListener("hashchange", showRoute);
 showRoute();
+
