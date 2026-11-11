@@ -1,0 +1,50 @@
+name: Refresh TagoreGPT catalogue
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tagore-gpt/scripts/build_catalogue.py"
+      - "tagore-gpt/requirements.txt"
+      - ".github/workflows/tagore-gpt-refresh.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "20 3 1 * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tagore-gpt-catalogue
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: tagore-gpt
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Build the song catalogue
+        run: python scripts/build_catalogue.py --output-dir .
+      - name: Commit refreshed catalogue
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add songs.json tagore_songs.sqlite
+          if git diff --cached --quiet; then
+            echo "Catalogue data is unchanged."
+            exit 0
+          fi
+          git commit -m "Refresh TagoreGPT song catalogue"
+          git push
+
