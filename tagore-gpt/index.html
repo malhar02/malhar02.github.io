@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f0e4">
+    <meta name="description" content="A source-grounded guide to Rabindra Sangeet: search songs and ask about taal, parjaay, raag, ritu, and composition details.">
+    <title>TagoreGPT — Rabindra Sangeet guide</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="TagoreGPT home">
+          <span class="brand-mark" aria-hidden="true">ত</span>
+          <span>TagoreGPT</span>
+        </a>
+        <div class="topbar-meta">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="data-status">Loading the song catalogue…</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <p class="eyebrow">A guide to Rabindra Sangeet</p>
+          <h1>Find the story inside a song.</h1>
+          <p class="hero-copy">Ask about taal, parjaay, raag, ritu, or a song’s composition details. Answers are drawn from Geetabitan records and link back to the source.</p>
+        </section>
+
+        <section class="workspace" aria-label="Song assistant">
+          <aside class="catalogue-card">
+            <div class="card-label">The collection</div>
+            <div class="count-block">
+              <strong id="song-count">—</strong>
+              <span>song records</span>
+            </div>
+            <p class="catalogue-note">The catalogue keeps facts and source links. Missing details stay marked as unlisted.</p>
+            <div class="divider"></div>
+            <div class="card-label">Try a question</div>
+            <button class="suggestion" type="button" data-question="What is the taal of Aami ekla cholechhi?">
+              <span>01</span><span>What taal is “Aami ekla cholechhi”?</span>
+            </button>
+            <button class="suggestion" type="button" data-question="Which songs use Dadra taal?">
+              <span>02</span><span>Which songs use Dadra taal?</span>
+            </button>
+            <button class="suggestion" type="button" data-question="Tell me about Aami ekla cholechhi">
+              <span>03</span><span>Tell me about a song</span>
+            </button>
+            <a class="database-link" id="database-download" href="./tagore_songs.sqlite" download hidden>
+              Download the SQLite database <span aria-hidden="true">↗</span>
+            </a>
+          </aside>
+
+          <section class="chat-card" aria-label="Ask TagoreGPT">
+            <div class="chat-heading">
+              <div class="avatar" aria-hidden="true">♪</div>
+              <div>
+                <h2>Ask TagoreGPT</h2>
+                <p>Answers grounded in song records</p>
+              </div>
+              <span class="source-pill">Source linked</span>
+            </div>
+
+            <div class="conversation" id="conversation" aria-live="polite">
+              <div class="message assistant-message">
+                <div class="message-label">TAGOREGPT</div>
+                <p>Namaskar. I can help you explore song details from the catalogue. Ask for a song’s taal, parjaay, raag, ritu, year, collection, or notation credit.</p>
+              </div>
+            </div>
+
+            <form class="composer" id="question-form">
+              <label class="sr-only" for="question-input">Ask about a Rabindra Sangeet</label>
+              <input id="question-input" name="question" autocomplete="off" placeholder="Ask about a song or musical detail…" required>
+              <button type="submit" aria-label="Send question">Ask <span aria-hidden="true">↗</span></button>
+            </form>
+            <p class="privacy-note">Your question is searched in this page; it is not sent to an AI service.</p>
+          </section>
+        </section>
+      </main>
+
+      <footer>
+        <span>Built for listeners, students, and curious minds.</span>
+        <a href="https://www.geetabitan.com/" target="_blank" rel="noopener noreferrer">Data source: Geetabitan.com ↗</a>
+      </footer>
+    </div>
+    <script src="./app.js" defer></script>
+  </body>
+</html>
+
