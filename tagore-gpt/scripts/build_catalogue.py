@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS songs (
     swarabitan TEXT,
     notation_by TEXT,
     extra_metadata_json TEXT NOT NULL,
+    search_terms_json TEXT NOT NULL DEFAULT '[]',
     scraped_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_songs_title ON songs(title_roman);
@@ -76,10 +77,12 @@ CREATE TABLE IF NOT EXISTS scrape_log (
 INSERT_SQL = """
 INSERT INTO songs (
     source_url, title_roman, parjaay, taal, raag, ritu, written_on,
-    collection, swarabitan, notation_by, extra_metadata_json, scraped_at
+    collection, swarabitan, notation_by, extra_metadata_json,
+    search_terms_json, scraped_at
 ) VALUES (
     :source_url, :title_roman, :parjaay, :taal, :raag, :ritu, :written_on,
-    :collection, :swarabitan, :notation_by, :extra_metadata_json, :scraped_at
+    :collection, :swarabitan, :notation_by, :extra_metadata_json,
+    :search_terms_json, :scraped_at
 )
 ON CONFLICT(source_url) DO UPDATE SET
     title_roman=excluded.title_roman,
@@ -92,6 +95,7 @@ ON CONFLICT(source_url) DO UPDATE SET
     swarabitan=excluded.swarabitan,
     notation_by=excluded.notation_by,
     extra_metadata_json=excluded.extra_metadata_json,
+    search_terms_json=excluded.search_terms_json,
     scraped_at=excluded.scraped_at
 """
 
@@ -185,6 +189,12 @@ def parse_page(html: str, source_url: str) -> dict:
 
     known_fields = set(FIELD_ALIASES.values())
     extra = {key: value for key, value in metadata.items() if key not in known_fields}
+    transliteration_node = soup.select_one("#copy pre")
+    transliteration = transliteration_node.get_text(" ", strip=True) if transliteration_node else ""
+    search_terms = sorted({
+        token.lower()
+        for token in re.findall(r"[A-Za-z]{2,}", transliteration)
+    })
     return {
         "source_url": source_url,
         "title_roman": title,
@@ -197,6 +207,7 @@ def parse_page(html: str, source_url: str) -> dict:
         "swarabitan": metadata.get("swarabitan"),
         "notation_by": metadata.get("notation_by"),
         "extra_metadata_json": json.dumps(extra, ensure_ascii=False, sort_keys=True),
+        "search_terms_json": json.dumps(search_terms, ensure_ascii=False),
         "scraped_at": datetime.now(timezone.utc).isoformat(),
     }
 
@@ -206,6 +217,11 @@ def write_database(session: requests.Session, urls: list[str], db_path: Path) ->
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     conn.executescript(CREATE_SQL)
+    columns = {row["name"] for row in conn.execute("PRAGMA table_info(songs)")}
+    if "search_terms_json" not in columns:
+        conn.execute(
+            "ALTER TABLE songs ADD COLUMN search_terms_json TEXT NOT NULL DEFAULT '[]'"
+        )
     conn.execute("DELETE FROM songs")
     conn.execute("DELETE FROM scrape_log")
     conn.commit()
@@ -261,15 +277,20 @@ def write_database(session: requests.Session, urls: list[str], db_path: Path) ->
 def export_json(db_path: Path, json_path: Path) -> int:
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
-    rows = [
-        dict(row)
-        for row in conn.execute(
-            """SELECT source_url, title_roman, parjaay, taal, raag, ritu,
-                      written_on, collection, swarabitan, notation_by,
-                      extra_metadata_json
-               FROM songs ORDER BY title_roman COLLATE NOCASE"""
-        )
-    ]
+    rows = []
+    for row in conn.execute(
+        """SELECT source_url, title_roman, parjaay, taal, raag, ritu,
+                  written_on, collection, swarabitan, notation_by,
+                  extra_metadata_json, search_terms_json
+           FROM songs ORDER BY title_roman COLLATE NOCASE"""
+    ):
+        record = dict(row)
+        raw_terms = record.pop("search_terms_json", "[]")
+        try:
+            record["search_terms"] = json.loads(raw_terms or "[]")
+        except json.JSONDecodeError:
+            record["search_terms"] = []
+        rows.append(record)
     conn.close()
     json_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
