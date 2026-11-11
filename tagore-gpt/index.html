@@ -25,7 +25,7 @@
         <section class="hero">
           <p class="eyebrow">A guide to Rabindra Sangeet</p>
           <h1>Find the story inside a song.</h1>
-          <p class="hero-copy">Ask about taal, parjaay, raag, ritu, or a song’s composition details. Answers are drawn from Geetabitan records and link back to the source.</p>
+          <p class="hero-copy">Enter Bengali song words using English letters to find a match, then explore its taal, parjaay, raag, ritu, and other available details.</p>
         </section>
 
         <section class="workspace" aria-label="Song assistant">
@@ -39,7 +39,7 @@
             <div class="divider"></div>
             <div class="card-label">Try a question</div>
             <button class="suggestion" type="button" data-question="What is the taal of Aami ekla cholechhi?">
-              <span>01</span><span>What taal is “Aami ekla cholechhi”?</span>
+              <span>01</span><span>Find the song from “aami ekla cholechhi”</span>
             </button>
             <button class="suggestion" type="button" data-question="Which songs use Dadra taal?">
               <span>02</span><span>Which songs use Dadra taal?</span>
@@ -65,13 +65,13 @@
             <div class="conversation" id="conversation" aria-live="polite">
               <div class="message assistant-message">
                 <div class="message-label">TAGOREGPT</div>
-                <p>Namaskar. I can help you explore song details from the catalogue. Ask for a song’s taal, parjaay, raag, ritu, year, collection, or notation credit.</p>
+              <p>Namaskar. Type a few Bengali song words using English letters, or ask about taal, parjaay, raag, ritu, year, collection, and notation credit.</p>
               </div>
             </div>
 
             <form class="composer" id="question-form">
               <label class="sr-only" for="question-input">Ask about a Rabindra Sangeet</label>
-              <input id="question-input" name="question" autocomplete="off" placeholder="Ask about a song or musical detail…" required>
+              <input id="question-input" name="question" autocomplete="off" placeholder="Type Bengali words with English letters…" required>
               <button type="submit" aria-label="Send question">Ask <span aria-hidden="true">↗</span></button>
             </form>
             <p class="privacy-note">Your question is searched in this page; it is not sent to an AI service.</p>
