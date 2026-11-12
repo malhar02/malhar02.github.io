@@ -14,7 +14,7 @@ The app answers from metadata listed on each page. It does not claim to be Tagor
 
 ## PDF status
 
-The supplied `gitobitan_all_bng.pdf` has readable Bengali page images, but its embedded Bangtex/CID text extracts as garbled characters. Bengali OCR is needed before the PDF can add searchable Bengali lyrics or be merged into the app. The current public search index comes from Geetabitan's English-transliteration pages; the original PDF is not included in the public repository.
+The supplied `gitobitan_all_bng.pdf` has readable Bengali page images, but its embedded Bangtex/CID text extracts as garbled characters. Run `notebooks/geetabitan_pdf_ocr.ipynb` in Colab to create a private OCR transcript and a compact page/search-term index. The app can merge `pdf_search_index.json` by song source URL; the full PDF and OCR lyric text are not included in the public repository.
 
 ## Training notebook
 

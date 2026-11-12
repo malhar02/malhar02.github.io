@@ -64,7 +64,12 @@ function buildSearchIndex() {
   termIndex = new Map();
   catalogue.forEach((row, rowIndex) => {
     const lyricTerms = Array.isArray(row.search_terms) ? row.search_terms : [];
-    const terms = new Set([...tokenize(row.title_roman), ...lyricTerms.flatMap(tokenize)]);
+    const pdfTerms = Array.isArray(row.pdf_search_terms) ? row.pdf_search_terms : [];
+    const terms = new Set([
+      ...tokenize(row.title_roman),
+      ...lyricTerms.flatMap(tokenize),
+      ...pdfTerms.flatMap(tokenize),
+    ]);
     for (const term of terms) {
       if (!termIndex.has(term)) termIndex.set(term, new Set());
       termIndex.get(term).add(rowIndex);
@@ -188,6 +193,7 @@ function metadataSummary(row) {
   } catch {
     // Ignore malformed optional metadata rather than breaking song lookup.
   }
+  if (row.pdf_page) details.push("PDF reference page: " + row.pdf_page);
   return details;
 }
 
@@ -316,7 +322,18 @@ async function loadCatalogue() {
     if (!response.ok) throw new Error("Catalogue request failed (" + response.status + ")");
     const data = await response.json();
     if (!Array.isArray(data)) throw new Error("Catalogue format is invalid");
-    catalogue = data;
+    let pdfRows = [];
+    try {
+      const pdfResponse = await fetch("./pdf_search_index.json", { cache: "no-cache" });
+      if (pdfResponse.ok) {
+        const enrichment = await pdfResponse.json();
+        if (Array.isArray(enrichment)) pdfRows = enrichment;
+      }
+    } catch {
+      // The PDF-derived index is optional until OCR has been run.
+    }
+    const pdfBySource = new Map(pdfRows.map((row) => [row.source_url, row]));
+    catalogue = data.map((row) => ({ ...row, ...(pdfBySource.get(row.source_url) || {}) }));
     buildSearchIndex();
     ready = true;
     status.textContent = catalogue.length.toLocaleString() + " song records ready";
@@ -355,4 +372,3 @@ document.querySelectorAll("[data-question]").forEach((button) => {
 });
 
 loadCatalogue();
-
