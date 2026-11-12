@@ -12,6 +12,10 @@ The app is published at <https://malhar02.github.io/tagore-gpt/> as an isolated 
 
 The app answers from metadata listed on each page. It does not claim to be Tagore or guess missing facts. The visitor's browser loads the JSON catalogue directly from this folder.
 
+## PDF status
+
+The supplied `gitobitan_all_bng.pdf` has readable Bengali page images, but its embedded Bangtex/CID text extracts as garbled characters. Bengali OCR is needed before the PDF can add searchable Bengali lyrics or be merged into the app. The current public search index comes from Geetabitan's English-transliteration pages; the original PDF is not included in the public repository.
+
 ## Training notebook
 
 `notebooks/tagore_gpt_colab.ipynb` adapts the supplied character-level GPT tutorial to a small text-continuation experiment. Use the structured catalogue for factual answers; a small character model cannot reliably recall exact taal, parjaay, raag, or ritu values.
@@ -22,4 +26,3 @@ The app answers from metadata listed on each page. It does not claim to be Tagor
 - <https://www.geetabitan.com/search/rabindra-sangeet-datatable.html>
 - <https://www.geetabitan.com/robots.txt>
 - <https://geetabitan.com/sitemap.xml>
-
